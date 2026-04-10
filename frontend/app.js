@@ -274,7 +274,7 @@ function buildRow(tx) {
     ? '<span class="badge vip">VIP</span>'
     : x2
       ? '<span class="badge bonus">2×</span>'
-      : '<span class="badge std">STD</span>';
+      : '<span class="badge base">BASE</span>';
 
   if (tx.offline) badge += ' <span class="badge off">OFFLINE</span>';
 

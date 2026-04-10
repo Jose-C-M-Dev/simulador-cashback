@@ -661,7 +661,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
 }
 .badge.vip   { color: var(--accent2); border-color: var(--accent2); background: rgba(0, 255, 209, 0.05); }
 .badge.bonus { color: var(--accent);  border-color: var(--accent);  background: rgba(200, 241, 53, 0.05); }
-.badge.std   { color: var(--text3);   border-color: var(--border2); }
+.badge.base   { color: var(--text3);   border-color: var(--border2); }
 .badge.off   { color: #F59E0B;        border-color: #F59E0B;        background: rgba(245, 158, 11, 0.05); }
 
 .hist-empty {
