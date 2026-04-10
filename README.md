@@ -28,16 +28,18 @@ Interface interativa com cálculo em tempo real
 ___
 ## Funcionalidades
 
-<img width="1874" height="924" alt="image" src="https://github.com/user-attachments/assets/42528639-0e46-4660-91a5-d572da731704" />
-
 **Calculadora**\
 Opções de incluir ao valor descontos de forma interativa, podendo utilizar a barra ou digitando manualmente\
 Selecionar se é um cliente VIP\
 E ao calcular e salvar, o valor aparece no histórico
 
+<img width="1874" height="924" alt="image" src="https://github.com/user-attachments/assets/42528639-0e46-4660-91a5-d572da731704" />
+
 **Histórico**\
 Pode levar alguns segundos para a primeira utilização por ser necessário retirar do sleep\
 Após esse período é possível verificar o total de consultas, cashback acumulado, média por consulta e históricos individuais de consultas anteriores
+
+<img width="1592" height="455" alt="image" src="https://github.com/user-attachments/assets/2b77714e-a0a3-4e79-80f6-ebd1a5251f86" />
 
 **Sobre**\
 Algumas informações úteis quanto ao projeto
