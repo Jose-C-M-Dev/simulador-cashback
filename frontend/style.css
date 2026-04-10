@@ -769,3 +769,102 @@ input[type="range"]::-webkit-slider-thumb:hover {
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
 
+/* =========================
+   MEDIA PARA NÃO QUEBRAR AO USAR NO CELULAR
+========================= */
+
+@media (max-width: 900px) {
+
+  :root {
+    --sw: 0px;
+  }
+
+  /* sidebar vira topo */
+  .sidebar {
+    position: fixed;
+    width: 100%;
+    height: 70px;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 16px;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .sb-logo-sub {
+    display: none;
+  }
+
+  .sb-logo-text {
+    font-size: 28px;
+  }
+
+  .sb-nav {
+    flex-direction: row;
+    padding: 0;
+    gap: 10px;
+  }
+
+  .sb-nav-lbl {
+    display: none;
+  }
+
+  .nav-btn {
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .sb-footer {
+    display: none;
+  }
+
+  /* main */
+  .main {
+    margin-left: 0;
+    margin-top: 70px;
+  }
+
+  /* painel calc vira coluna */
+  #panel-calc.active {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* hero */
+  .hero {
+    position: relative;
+    height: auto;
+    border-right: none;
+    border-bottom: 1px solid var(--border);
+    padding: 30px 20px;
+  }
+
+  .hero-label {
+    font-size: 40px;
+  }
+
+  .hero-amount {
+    font-size: 60px;
+  }
+
+  .hero-label-2 {
+    font-size: 22px;
+  }
+
+  /* form */
+  .form-col {
+    min-height: auto;
+  }
+
+  .form-head {
+    padding: 20px;
+  }
+
+  .form-body {
+    padding: 20px;
+  }
+
+  .form-head-title {
+    font-size: 28px;
+  }
+}
