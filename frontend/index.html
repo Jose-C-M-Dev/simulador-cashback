@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C$H — Simulador de Cashback</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+
+    <div class="sb-logo">
+      <div class="sb-logo-text">C$H</div>
+      <div class="sb-logo-sub">Simulador de Cashback</div>
+    </div>
+
+      <!-- navbar -->
+    <nav class="sb-nav">
+      <div class="sb-nav-lbl">Menu</div>
+      <button class="nav-btn active" id="nav-calc"  onclick="goTo('calc')">
+        <span class="nav-num">01</span> Calculadora
+      </button>
+      <button class="nav-btn"        id="nav-hist"  onclick="goTo('hist')">
+        <span class="nav-num">02</span> Histórico
+      </button>
+      <button class="nav-btn"        id="nav-about" onclick="goTo('about')">
+        <span class="nav-num">03</span> Sobre
+      </button>
+    </nav>
+
+      <!-- footer -->
+    <div class="sb-footer">
+      <div class="theme-pill" onclick="toggleTheme()">
+        <div class="t-track"><div class="t-thumb"></div></div>
+        <span class="theme-lbl" id="theme-lbl">Escuro</span>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- PAINEL: CALCULADORA -->
+    <div class="panel active" id="panel-calc">
+
+      <!-- Hero (esquerda) -->
+      <div class="hero">
+        <div class="hero-grid"></div>
+        <div class="hero-glow"></div>
+
+        <div class="hero-eyebrow">// Cashback estimado em tempo real</div>
+        <div class="hero-label">VOCÊ<br>RECEBE</div>
+        <div class="hero-amount" id="hero-val">R$0,00</div>
+
+        <div class="hero-chips">
+          <div class="chip" id="chip-desc">Desconto 0%</div>
+          <div class="chip" id="chip-2x">Bônus 2×</div>
+          <div class="chip" id="chip-vip">VIP +10%</div>
+        </div>
+      </div>
+
+      <!-- Formulário (direita) -->
+      <div class="form-col">
+
+        <div class="form-head">
+          <div class="form-head-title">CALCULAR</div>
+          <div class="form-head-sub">// Preencha os dados da compra</div>
+        </div>
+
+        <div class="form-body">
+
+          <!-- Campo: Valor -->
+          <div>
+            <div class="field-label">
+              Valor da compra
+              <span class="field-hint">Acima de R$500 = 2× cashback</span>
+            </div>
+            <div class="input-row">
+              <span class="inp-affix">R$</span>
+              <input
+                class="inp"
+                id="f-valor"
+                type="number"
+                min="0"
+                step="0.01"
+                placeholder="0,00"
+                oninput="preview()"
+              />
+            </div>
+          </div>
+
+          <!-- Campo: Desconto -->
+          <div>
+            <div class="field-label">
+              Desconto aplicado
+              <span class="field-hint" id="range-read">0%</span>
+            </div>
+            <div class="input-row">
+              <input
+                class="inp"
+                id="f-desc"
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                placeholder="0"
+                oninput="syncInput()"
+              />
+              <span class="inp-affix r">%</span>
+            </div>
+            <div class="range-row">
+              <input
+                type="range"
+                id="f-range"
+                min="0"
+                max="100"
+                step="1"
+                value="0"
+                oninput="syncRange()"
+              />
+            </div>
+          </div>
+
+          <!-- Campo: VIP -->
+          <div class="vip-box" id="vip-box">
+            <div>
+              <div class="vip-title">Cliente VIP</div>
+              <div class="vip-desc">Cashback adicional de +10% sobre o total</div>
+            </div>
+            <label class="sq-toggle">
+              <input type="checkbox" id="f-vip" onchange="toggleVip()" />
+              <span class="sq-track"></span>
+            </label>
+          </div>
+
+          <!-- Resumo -->
+          <div class="summary">
+            <div class="sum-row">
+              <span>Valor original</span>
+              <span class="sum-val" id="s-orig">—</span>
+            </div>
+            <div class="sum-row">
+              <span>Valor final (após desconto)</span>
+              <span class="sum-val" id="s-fin">—</span>
+            </div>
+            <div class="sum-row">
+              <span>Base cashback (5%)</span>
+              <span class="sum-val" id="s-base">—</span>
+            </div>
+            <div class="sum-row total">
+              <span>Cashback total</span>
+              <span class="sum-val" id="s-cash">—</span>
+            </div>
+          </div>
+
+          <div class="err-line" id="err-line"></div>
+
+          <button class="submit-btn" id="sub-btn" onclick="enviar()">
+            CALCULAR E SALVAR
+          </button>
+
+        </div><!-- /form-body -->
+
+        <div class="form-foot">
+          <span class="api-lbl">API</span>
+          <input class="api-inp" id="api-url" type="text" value="https://cashback-avkk.onrender.com" />
+        </div>
+
+      </div><!-- /form-col -->
+
+    </div><!-- /panel-calc -->
+
+    <!-- PAINEL: HISTÓRICO -->
+    <div class="panel" id="panel-hist">
+
+      <div class="hist-head">
+        <div class="hist-title">TRANSAÇÕES</div>
+        <button class="hist-refresh" onclick="loadHist()">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 3v5h5"/>
+            <path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/>
+          </svg>
+          Atualizar
+        </button>
+      </div>
+
+      <div class="stats-bar" id="stats-bar" style="display:none">
+        <div class="stat-blk">
+          <div class="stat-lbl">Total de consultas</div>
+          <div class="stat-val" id="st-n">0</div>
+        </div>
+        <div class="stat-blk">
+          <div class="stat-lbl">Cashback acumulado</div>
+          <div class="stat-val" id="st-t">R$0</div>
+        </div>
+        <div class="stat-blk">
+          <div class="stat-lbl">Média por consulta</div>
+          <div class="stat-val" id="st-a">R$0</div>
+        </div>
+      </div>
+
+      <div class="hist-table">
+        <div class="tbl-head">
+          <div>Compra</div>
+          <div>Desconto</div>
+          <div>Val. final</div>
+          <div>Status</div>
+          <div>Cashback</div>
+        </div>
+          <div id="hist-list"></div>
+      </div>
+
+    </div><!-- /panel-hist -->
+
+    <!-- PAINEL: SOBRE -->
+    <div class="panel" id="panel-about">
+
+      <div class="about-hero">
+        <div class="about-eye">// Sistema de cashback</div>
+        <div class="about-hl">CASH<em>BACK</em><br>SISTEMA</div>
+      </div>
+
+      <div class="about-grid">
+        <div class="about-blk">
+          <div class="about-blk-title">COMO FUNCIONA</div>
+          <div class="about-blk-body">
+            O sistema calcula <b>5% de cashback</b> sobre o valor final da compra após desconto.<br><br>
+            Compras acima de <b>R$500</b> recebem o dobro automaticamente.<br><br>
+            Clientes <b>VIP</b> ganham +10% adicional sobre o cashback calculado.
+          </div>
+        </div>
+        <div class="about-blk">
+          <div class="about-blk-title">REGRAS</div>
+          <div class="about-blk-body">
+            <b>Base:</b> 5% cashback<br><br>
+            <b>Bônus 2×:</b> se valor final &gt; R$500<br><br>
+            <b>VIP:</b> 10% ao final no cashback<br><br>
+          </div>
+        </div>
+        <div class="about-blk">
+          <div class="about-blk-title">BACKEND</div>
+          <div class="about-blk-body">
+            <b>POST /cashback</b> — Calcula e salva<br>
+            <b>GET /historico</b> — Lista por IP<br><br>
+          </div>
+        </div>
+        <div class="about-blk">
+          <div class="about-blk-title">INTERFACE</div>
+          <div class="about-blk-body">
+            Design inspirado em portfolios e templates do git
+            <br><b>bradtraversy/design-resources-for-developers</b>.<br><br>
+           Tutoriais <b>Lun Dev</b> no Youtube.
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /panel-about -->
+
+  </main>
+
+  <!-- Toast de notificações -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Script -->
+  <script src="app.js"></script>
+
+</body>
+</html>
