@@ -1,9 +1,4 @@
-/* ════════════════════════════════════════════════════════════
-   C$H — Cashback Engine
-   style.css
-════════════════════════════════════════════════════════════ */
-
-/* ── Reset ─────────────────────────────────────────────────── */
+/* Reset */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -11,7 +6,7 @@
 }
 html, body { height: 100%; }
 
-/* ── Tokens / Variáveis ────────────────────────────────────── */
+/* Tokens / Variáveis */
 :root {
   --accent:   #C8F135;
   --accent2:  #00FFD1;
@@ -31,17 +26,33 @@ html, body { height: 100%; }
 
 /* Modo claro */
 [data-theme="light"] {
-  --bg:      #EDECE8;
-  --bg2:     #E4E3DE;
-  --surface: #F5F4F0;
-  --border:  rgba(0, 0, 0, 0.08);
-  --border2: rgba(0, 0, 0, 0.16);
+  --bg:      #d4d4d4;
+  --bg2:     #888888;
+  --surface: #e0e0e0;
+
+  --border:  rgba(0, 0, 0, 0.12);
+  --border2: rgba(0, 0, 0, 0.20);
+
   --text:    #0A0A0A;
-  --text2:   rgba(10, 10, 10, 0.42);
-  --text3:   rgba(10, 10, 10, 0.20);
+  --text2:   rgba(10, 10, 10, 5.00);
+  --text3:   rgba(10, 10, 10, 2.05);
+
+    font-weight: 600;
 }
 
-/* ── Base ──────────────────────────────────────────────────── */
+[data-theme="light"] .sum-row.total span:first-child {
+  color:   #333333;
+  font-size:  12px;
+  font-weight: 600;
+}
+
+[data-theme="light"] .sum-row.total .sum-val {
+  color:    #333333;
+  font-size:   12px;
+  font-weight:  600;
+}
+
+/* Base */
 body {
   font-family: var(--fb);
   background: var(--bg);
@@ -49,9 +60,7 @@ body {
   transition: background 0.3s, color 0.3s;
 }
 
-/* ════════════════════════════════════════════════════════════
-   SIDEBAR
-════════════════════════════════════════════════════════════ */
+/* SIDEBAR */
 .sidebar {
   position: fixed;
   inset: 0 auto 0 0;
@@ -202,9 +211,7 @@ body {
 }
 .sb-year { font-family: var(--fm); font-size: 9px; color: var(--text3); }
 
-/* ════════════════════════════════════════════════════════════
-   MAIN / PAINÉIS
-════════════════════════════════════════════════════════════ */
+/* MAIN / PAINÉIS */
 .main {
   margin-left: var(--sw);
   min-height: 100vh;
@@ -213,16 +220,14 @@ body {
 .panel        { display: none; }
 .panel.active { display: block; }
 
-/* ════════════════════════════════════════════════════════════
-   PAINEL: CALCULADORA
-════════════════════════════════════════════════════════════ */
+/* PAINEL: CALCULADORA */
 #panel-calc.active {
   display: grid;
   grid-template-columns: 1fr 440px;
   min-height: 100vh;
 }
 
-/* -- Hero (coluna esquerda) --------------------------------- */
+/* Hero (coluna esquerda) */
 .hero {
   position: sticky;
   top: 0;
@@ -316,7 +321,7 @@ body {
 .chip.g { border-color: var(--accent);  color: var(--accent);  background: rgba(200, 241, 53, 0.07); }
 .chip.c { border-color: var(--accent2); color: var(--accent2); background: rgba(0, 255, 209, 0.06);  }
 
-/* -- Formulário (coluna direita) ---------------------------- */
+/* Formulário (coluna direita) */
 .form-col {
   background: var(--surface);
   min-height: 100vh;

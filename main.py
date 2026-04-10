@@ -4,6 +4,8 @@ from pydantic import BaseModel
 from sqlalchemy import create_engine, Column, Integer, Float, Boolean, String
 from sqlalchemy.orm import sessionmaker, declarative_base
 from dotenv import load_dotenv
+from fastapi import Depends
+from sqlalchemy.orm import Session
 import os
 
 load_dotenv()
@@ -17,12 +19,25 @@ DATABASE_URL = os.getenv(
     "DATABASE_URL",
     "postgresql://adm:0Boes78AwGdd8uizeMxRe9mRT4MssKcb@dpg-d7c0ohnlk1mc7399mmm0-a.oregon-postgres.render.com/cashback_t3s5"
 )
+
 #2- Conectar DB
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
 
+#-----------------------------------------------------------
+# Somente para debug - FINAL DO CÓDIGO
+#-----------------------------------------------------------
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+#-----------------------------------------------------------
+
 app = FastAPI()
+
 #Acesso Front
 app.add_middleware(
     CORSMiddleware,
@@ -46,13 +61,16 @@ class Consulta(Base):
     desconto = Column(Float)
     vip      = Column(Boolean)
     cashback = Column(Float)
+
 #2- Criar Tabela
 Base.metadata.create_all(bind=engine)
+
 #3- Tipo Entrada
 class CashbackRequest(BaseModel):
     valor:    float
     desconto: float
     vip:      bool
+
 #4- Regra
 def calcular_cashback(valor, desconto, vip):
     valor_final = valor * (1 - desconto / 100)
@@ -68,11 +86,10 @@ def calcular_cashback(valor, desconto, vip):
 #-----------------------------------------------------------
 
 #1- Ini
-from fastapi.responses import FileResponse
-
 @app.get("/")
 def home():
-    return FileResponse("frontend/index.html")
+    return {"status": "online"}
+
 #2- Calcular e salvar
 @app.post("/cashback")
 async def cashback(data: CashbackRequest, request: Request):
@@ -90,6 +107,7 @@ async def cashback(data: CashbackRequest, request: Request):
     db.commit()
     db.close()
     return {"cashback": resultado}
+
 #3- Histórico IP
 @app.get("/historico")
 def historico(request: Request):
@@ -105,4 +123,25 @@ def historico(request: Request):
             "cashback": c.cashback
         }
         for c in consultas
+    ]
+
+#-----------------------------------------------------------
+# Não faz parte do projeto, somente para verificar
+# se está funcionando corretamente o ID/IP
+#-----------------------------------------------------------
+
+@app.get("/consultas")
+def consultas(db: Session = Depends(get_db)):
+    data = db.query(Consulta).all()
+
+    return [
+        {
+            "id": c.id,
+            "ip": c.ip,
+            "valor": c.valor,
+            "desconto": c.desconto,
+            "vip": c.vip,
+            "cashback": c.cashback
+        }
+        for c in data
     ]
