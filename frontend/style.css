@@ -285,6 +285,16 @@ body {
   position: relative;
   transition: color 0.3s;
 }
+
+.hero-label-2 {
+  font-family: var(--fd);
+  font-size: clamp(20px, 2vw, 50px);
+  line-height: 0.88;
+  color: var(--text);
+  position: relative;
+  transition: color 0.3s;
+}
+
 .hero-amount {
   font-family: var(--fd);
   font-size: clamp(72px, 8.5vw, 130px);
@@ -758,3 +768,4 @@ input[type="range"]::-webkit-slider-thumb:hover {
 ::-webkit-scrollbar       { width: 3px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+
